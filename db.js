@@ -1,16 +1,18 @@
 //very important
 
 const mongoose = require('mongoose');
+require('dotenv').config();
 //define the mongoDB connection url
-const mongoURL = 'mongodb://localhost:27017/hotels'
+// const mongoURL = process.env.DB_URL_LOCAL'
 
+const mongoURL = process.env.DB_URL;
 
 //set up connection(ye required parameter hai)
 mongoose.connect(mongoURL,{
     useNewURlParser:true,
     useUnifiedTopology: true
 })
-
+// IDoz8a6vbDquahX1 cQaeJ5WWswVFfFpq
 //isi connection se hum apne db server and nodejs server ko connect krte hsi 
 //isse mongoose khud maintain karta hai
 const db = mongoose.connection;
