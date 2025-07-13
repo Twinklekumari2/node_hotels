@@ -18,7 +18,7 @@ const logRequest = (req,res,next) => {
 }
 app.use(logRequest);
 
-const localAuthenticate = passport.authenticate('local',{session:false});
+const localAuthMiddleware = passport.authenticate('local',{session:false});
 
 app.get('/',function(req,res) {
     res.send("Welcome to my hotel..how can i help you?")
@@ -56,7 +56,7 @@ const menuRoutes = require('./router/menuRoutes');
 app.use('/menu',menuRoutes)
 
 const personRoutes = require('./router/personRoutes')
-app.use('/person',localAuthenticate,personRoutes);
+app.use('/person',personRoutes);
 
 app.listen(PORT,() => {
     console.log("server is live");

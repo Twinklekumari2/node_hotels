@@ -42,14 +42,17 @@ const personSchema = new mongoose.Schema({
         type:String,
     }
 });
-personSchema.pre('save',async function(next) {
+
+personSchema.pre('save', async function(next) {
     const person = this;
+    //hash the password only if it has been modified
     if(!person.isModified('password')) return next();
     //false hoga toh skip nhi karenge
+
     try{
         //ye hum kab karenge?? -> jab hame password generate karna hoga tab
-        //hash password generation
 
+        //hash password generation
         const salt = await bcrypt.genSalt(10);
 
         //hash password
@@ -60,21 +63,17 @@ personSchema.pre('save',async function(next) {
         next();
     }catch(err){
         return next(err);
-
-    }
-    
+    }  
 })
 
 personSchema.methods.comparePassword = async function(candidatePassword){
     try{
-        const isMatch = await bcrypt.compare(candidatePassword,this.password);
+        const isMatch = await bcrypt.compare(candidatePassword, this.password);
         return isMatch;
-
     }catch(err){
-        throw err;
+        throw err; // Key change here!
     }
 }
-
 
 const Person = mongoose.model('Person',personSchema)
 
